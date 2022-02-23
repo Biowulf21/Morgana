@@ -44,7 +44,17 @@ class _HomeState extends State<Home> {
             child: Container(
               child: Text(loggedInUser!.email.toString()),
             ),
-          )
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton(
+              onPressed: () {
+                FirebaseAuth.instance.signOut();
+                Navigator.pop(context);
+              },
+              child: Text("Logout"),
+            ),
+          ),
         ],
       ),
     );

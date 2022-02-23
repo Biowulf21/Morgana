@@ -24,59 +24,72 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     final validationService = Provider.of<SignUpValidation>(context);
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text("Morgana"),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ListView(
-            children: <Widget>[
-              TextField(
-                onChanged: (String value) {
-                  print('first name is ${value}');
-                  validationService.changeName(value);
-                  nameController.text = validationService.Name.value!.trim();
-                },
-                decoration: InputDecoration(
-                    errorText: validationService.Name.error, labelText: "Name"),
+    return StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Scaffold(
+              appBar: AppBar(
+                title: const Text("Morgana"),
               ),
-              TextField(
-                keyboardType: TextInputType.emailAddress,
-                onChanged: (String value) {
-                  validationService.changeEmail(value);
-                  emailController.text = validationService.Email.value!.trim();
-                },
-                decoration: InputDecoration(
-                    errorText: validationService.Email.error,
-                    labelText: "Email"),
-              ),
-              TextField(
-                controller: passwordController,
-                onChanged: (String value) {
-                  print('password is: ${value}');
-                  validationService.changePassword(value);
-                },
-                decoration: InputDecoration(
-                    errorText: validationService.Password.error,
-                    labelText: "Password"),
-              ),
-              //
+              body: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListView(
+                  children: <Widget>[
+                    TextField(
+                      onChanged: (String value) {
+                        print('first name is ${value}');
+                        validationService.changeName(value);
+                        nameController.text =
+                            validationService.Name.value!.trim();
+                      },
+                      decoration: InputDecoration(
+                          errorText: validationService.Name.error,
+                          labelText: "Name"),
+                    ),
+                    TextField(
+                      keyboardType: TextInputType.emailAddress,
+                      onChanged: (String value) {
+                        validationService.changeEmail(value);
+                        emailController.text =
+                            validationService.Email.value!.trim();
+                      },
+                      decoration: InputDecoration(
+                          errorText: validationService.Email.error,
+                          labelText: "Email"),
+                    ),
+                    TextField(
+                      controller: passwordController,
+                      onChanged: (String value) {
+                        print('password is: ${value}');
+                        validationService.changePassword(value);
+                      },
+                      decoration: InputDecoration(
+                          errorText: validationService.Password.error,
+                          labelText: "Password"),
+                    ),
+                    //
 
-              ElevatedButton(
-                  onPressed: () async {
-                    print(
-                        'email = ${emailController.text}, name = ${emailController.text}, password = ${validationService.Password.value} ');
-                    var newUser = await _auth.createUserWithEmailAndPassword(
-                        email: emailController.text.trim(),
-                        password: passwordController.text.trim());
+                    ElevatedButton(
+                        onPressed: () async {
+                          print(
+                              'email = ${emailController.text}, name = ${emailController.text}, password = ${validationService.Password.value} ');
+                          var newUser =
+                              await _auth.createUserWithEmailAndPassword(
+                                  email: emailController.text.trim(),
+                                  password: passwordController.text.trim());
 
-                    print('Signing up');
-                    Navigator.pushNamed(context, Home.id);
-                  },
-                  child: Text("Submit")),
-            ],
-          ),
-        ));
+                          print('Signing up');
+                          Navigator.pushNamed(context, Home.id);
+                        },
+                        child: Text("Submit")),
+                  ],
+                ),
+              ),
+            );
+          } else {
+            return Home();
+          }
+        });
   }
 }
