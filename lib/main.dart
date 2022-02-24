@@ -6,6 +6,7 @@ import 'package:test_application/screen/login.dart';
 import 'package:test_application/screen/signup.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:test_application/screen/welcome.dart';
+import 'package:test_application/services/google_signin.dart';
 //import 'firebase_options.dart';
 
 void main() async {
@@ -13,6 +14,9 @@ void main() async {
   await Firebase.initializeApp();
   runApp(
     MultiProvider(providers: [
+      ChangeNotifierProvider<GoogleSignInProvider>(
+        create: (_) => GoogleSignInProvider(),
+      ),
       ChangeNotifierProvider<SignUpValidation>(
         create: (_) => SignUpValidation(),
       ),
@@ -45,10 +49,10 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-      initialRoute: WelcomeScreen.id,
+        initialRoute: WelcomeScreen.id,
         routes: {
-          WelcomeScreen.id:(context) => WelcomeScreen(),
-          Login.id:(context) => Login(),
+          WelcomeScreen.id: (context) => WelcomeScreen(),
+          Login.id: (context) => Login(),
           SignUp.id: (context) => SignUp(),
           Home.id: (context) => Home()
         });

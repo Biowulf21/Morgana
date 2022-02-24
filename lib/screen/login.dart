@@ -15,11 +15,50 @@ class Login extends StatelessWidget {
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Scaffold(
-              appBar: AppBar(),
+              // appBar: AppBar(
+              //   automaticallyImplyLeading: false,
+              // ),
               body: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ListView(
                   children: [
+                    Container(
+                      child: Placeholder(color: Colors.blue),
+                      height: MediaQuery.of(context).size.height * 0.4,
+                    ),
+                    Container(
+                      alignment: Alignment.topLeft,
+                      child: const Padding(
+                        padding: EdgeInsets.only(top: 16.0, bottom: 4),
+                        child: Text(
+                          "Login",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                    TextField(
+                      onChanged: (String value) {
+                        print('Email is: ${value}');
+                      },
+                      decoration: InputDecoration(
+                          errorText: "error", labelText: "Email"),
+                    ),
+                    TextField(
+                      onChanged: (String value) {
+                        print('password is: ${value}');
+                      },
+                      decoration: InputDecoration(
+                          errorText: "error", labelText: "Password"),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {},
+                      child: Text("Login"),
+                    ),
+                    SizedBox(height: 20.0),
+                    Divider(),
+                    Center(
+                      child: Text("or"),
+                    ),
                     FlutterSocialButton(
                       onTap: () {},
                       buttonType: ButtonType.google,

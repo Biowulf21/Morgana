@@ -13,9 +13,13 @@ class WelcomeScreen extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: ListView(
             children: [
-              Container(
-                height: MediaQuery.of(context).size.height * 0.8,
-                color: Colors.transparent,
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Container(
+                  child: Placeholder(color: Colors.blue),
+                  height: MediaQuery.of(context).size.height * 0.8,
+                  color: Colors.transparent,
+                ),
               ),
               ElevatedButton(
                 onPressed: () {
@@ -27,7 +31,7 @@ class WelcomeScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.pushNamed(context, SignUp.id);
                 },
-                child: Text('SignUp'),
+                child: Text('Sign Up'),
               ),
             ],
           ),
