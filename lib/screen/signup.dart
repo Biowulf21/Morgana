@@ -96,12 +96,18 @@ class _SignUpState extends State<SignUp> {
                   ),
                   const Divider(),
                   FlutterSocialButton(
-                    onTap: () {
+                    title: "Sign up with Google",
+                    onTap: () async {
                       final googleProvider = Provider.of<GoogleSignInProvider>(
                           context,
                           listen: false);
-                      googleProvider.googleLogin();
+                      try {
+                        await googleProvider.googleLogin();
+                      } catch (e) {
+                        print('error is ${e}');
+                      }
                       print('loggin in google');
+                      Navigator.pushNamed(context, Home.id);
                     },
                     buttonType: ButtonType.google,
                   ),

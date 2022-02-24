@@ -9,17 +9,28 @@ class GoogleSignInProvider with ChangeNotifier {
   GoogleSignInAccount get user => _user!;
 
   Future googleLogin() async {
-    final googleUser = await google_signin.signIn();
-    if (googleUser == null) {
-      return;
+    try {
+      final googleUser = await google_signin.signIn();
+      if (googleUser == null) {
+        return;
+      }
+      _user = googleUser;
+
+      final googleAuth = await googleUser.authentication;
+      final credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
+      //TODO: Sign in failed whenever user's google account doesn't exist yet
+      await FirebaseAuth.instance.signInWithCredential(credential);
+    } catch (e) {
+      print('erro is ${e}');
     }
-    _user = googleUser;
+    // await FirebaseAuth.instance
+    notifyListeners();
+  }
 
-    final googleAuth = await googleUser.authentication;
-    final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
-
-    await FirebaseAuth.instance.signInWithCredential(credential);
+  Future googleSignout() async {
+    google_signin.disconnect();
+    FirebaseAuth.instance.signOut();
     notifyListeners();
   }
 }

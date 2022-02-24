@@ -1,12 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_social_button/flutter_social_button.dart';
 import 'home.dart';
 
 class Login extends StatelessWidget {
-  const Login({Key? key}) : super(key: key);
+  Login({Key? key}) : super(key: key);
 
   static String id = "login";
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +40,7 @@ class Login extends StatelessWidget {
                       ),
                     ),
                     TextField(
+                      controller: _emailController,
                       onChanged: (String value) {
                         print('Email is: ${value}');
                       },
@@ -44,6 +48,7 @@ class Login extends StatelessWidget {
                           errorText: "error", labelText: "Email"),
                     ),
                     TextField(
+                      controller: _passwordController,
                       onChanged: (String value) {
                         print('password is: ${value}');
                       },
@@ -51,7 +56,12 @@ class Login extends StatelessWidget {
                           errorText: "error", labelText: "Password"),
                     ),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        FirebaseAuth.instance.signInWithEmailAndPassword(
+                            email: _emailController.text.trim(),
+                            password: _passwordController.text.trim());
+                        print("logging in");
+                      },
                       child: Text("Login"),
                     ),
                     SizedBox(height: 20.0),
