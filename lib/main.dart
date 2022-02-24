@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:test_application/models/signup_validation.dart';
 import 'package:test_application/screen/home.dart';
+import 'package:test_application/screen/login.dart';
 import 'package:test_application/screen/signup.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:test_application/screen/welcome.dart';
 //import 'firebase_options.dart';
 
 void main() async {
@@ -43,8 +45,10 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        initialRoute: SignUp.id,
+      initialRoute: WelcomeScreen.id,
         routes: {
+          WelcomeScreen.id:(context) => WelcomeScreen(),
+          Login.id:(context) => Login(),
           SignUp.id: (context) => SignUp(),
           Home.id: (context) => Home()
         });
